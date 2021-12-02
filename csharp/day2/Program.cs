@@ -10,7 +10,7 @@ namespace adventofcode2020
         static void Main(string[] args)
         {
             Console.WriteLine("Day 2 of AoC");
-            IEnumerable<int> data = null;
+            IEnumerable<Tuple<string, int>> data = null;
             Utils.Utils.MeasureActionTime("Load", () =>
             {
                 string input = args[0];
@@ -31,45 +31,63 @@ namespace adventofcode2020
             Console.WriteLine("END");
         }
 
-        static IEnumerable<int> LoadData(string filename)
+        static IEnumerable<Tuple<string, int>> LoadData(string filename)
         {                
             var raw = Utils.Utils.ReadAllLines(filename);
             foreach (var item in raw)
             {
-                yield return Int32.Parse(item);
+                var l = item.Split(' ');
+                yield return new Tuple<string, int>(l[0], Int32.Parse(l[1]));
             }
         }
 
-        static int DoMagic(IEnumerable<int> input)
-        {
-            var previous = Int32.MaxValue;
-            var counter = 0;
+        static int DoMagic(IEnumerable<Tuple<string, int>> input)
+        {        
+            var x = 0;
+            var y = 0;
             foreach (var item in input)
             {
-                if(item > previous){
-                    counter++;
+                switch (item.Item1)
+                {
+                    case "forward":
+                        x += item.Item2;
+                        break;
+                    case "down":
+                        y += item.Item2;
+                        break;
+                    case "up":
+                        y -=item.Item2;
+                        break;
                 }
-                previous = item;
             }
 
-            return counter;
+            return x * y;
         }
 
-        static int DoMagic2(IEnumerable<int> input)
+        static int DoMagic2(IEnumerable<Tuple<string, int>> input)
         {
-            var previous = Int32.MaxValue;
-            var counter = 0;
-            var list = input.ToList();
-            for (int i = 0; i < list.Count() - 2; i++)
+            var x = 0;
+            var y = 0;
+            var aim = 0;
+
+            foreach (var item in input)
             {
-                var x = list[i] + list[i+1] + list[i+2];
-                if(x > previous){
-                    counter++;
+                switch (item.Item1)
+                {
+                    case "forward":
+                        x += item.Item2;
+                        y = y + item.Item2*aim; 
+                        break;
+                    case "down":
+                        aim += item.Item2;
+                        break;
+                    case "up":
+                        aim -=item.Item2;
+                        break;
                 }
-                previous = x;
             }
 
-            return counter;
+            return x * y;
         }
     }
 }
