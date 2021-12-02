@@ -14,28 +14,41 @@ def main():
 
 def loadData():
     input = utils.readAllLines()
+    res = []
     for i in range(0, len(input)):
-        input[i] = int(input[i])
-    return input
+        cmd = input[i].split()
+        res.append((cmd[0],int(cmd[1])))
+    return res
 
 def part1(input):
-    previous = 1000000
-    counter = 0
-    for x in input:
-        if x > previous:
-            counter += 1
-        previous = x
-    print("AoC part 1: " + str(counter))
+    x = 0
+    y = 0
+    for cmd in input:
+        match cmd[0]:
+            case "forward":
+                x += cmd[1]
+            case "up":
+                y -= cmd[1]
+            case "down":
+                y += cmd[1]
+
+    print("AoC part 1: " + str(x*y))
 
 def part2(input):
-    previous = 1000000
-    counter = 0
-    for i in range(0, len(input)-2):
-        x = input[i] + input[i+1] + input[i+2]
-        if x > previous:
-            counter += 1
-        previous = x
-    print("AoC part 2: " + str(counter))
+    x = 0
+    y = 0
+    aim = 0
+    for cmd in input:
+        match cmd[0]:
+            case "forward":
+                x += cmd[1]
+                y += cmd[1]*aim
+            case "up":
+                aim -= cmd[1]
+            case "down":
+                aim += cmd[1]
+
+    print("AoC part 1: " + str(x*y))
 
 if __name__ == "__main__":
     main()
