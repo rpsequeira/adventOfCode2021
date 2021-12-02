@@ -8,6 +8,7 @@ sys.path.append(os.path.dirname(SCRIPT_DIR + "/../"))
 from utils import utils
 
 def main():
+    print("Day 1 of AoC")
     input = loadData()
     part1(input)
     part2(input)    

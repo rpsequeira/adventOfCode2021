@@ -8,6 +8,7 @@ sys.path.append(os.path.dirname(SCRIPT_DIR + "/../"))
 from utils import utils
 
 def main():
+    print("Day 2 of AoC")
     input = loadData()
     part1(input)
     part2(input)    
@@ -48,7 +49,7 @@ def part2(input):
             case "down":
                 aim += cmd[1]
 
-    print("AoC part 1: " + str(x*y))
+    print("AoC part 2: " + str(x*y))
 
 if __name__ == "__main__":
     main()
