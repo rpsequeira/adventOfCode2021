@@ -23,11 +23,11 @@ namespace adventofcode2020
                 var res = DoMagic(data);
                 Console.WriteLine($"Result -> {res}");
             });
-            // Utils.Utils.MeasureActionTime("Part 2", () =>
-            // {
-            //     var res = DoMagic2(data);
-            //     Console.WriteLine($"Result -> {res}");
-            // });
+            Utils.Utils.MeasureActionTime("Part 2", () =>
+            {
+                var res = DoMagic2(data);
+                Console.WriteLine($"Result -> {res}");
+            });
             Console.WriteLine("END");
         }
 
@@ -40,7 +40,6 @@ namespace adventofcode2020
         static int DoMagic(IEnumerable<string> input)
         {        
             var counter = new List<int>();
-            var y = 0;
             foreach (var item in input)
             {
                 for (int i = 0; i < item.Length;i++)                        
@@ -75,28 +74,56 @@ namespace adventofcode2020
 
         static int DoMagic2(IEnumerable<string> input)
         {
-            var x = 0;
-            var y = 0;
-            var aim = 0;
+            var list = input.ToList();
+            var index = 0;
 
-            foreach (var item in input)
+            while(list.Count() > 1)
             {
-                switch (item.Item1)
+                var counter = 0;
+                foreach (var item in list)
                 {
-                    case "forward":
-                        x += item.Item2;
-                        y = y + item.Item2*aim; 
-                        break;
-                    case "down":
-                        aim += item.Item2;
-                        break;
-                    case "up":
-                        aim -=item.Item2;
-                        break;
+                    if(item[index] == '0'){
+                        counter++;
+                    }
                 }
+                if(counter > (list.Count()/2)){
+                    list = list.Where(item => item[index] == '0').ToList();
+                }
+                else
+                {
+                     list = list.Where(item => item[index] == '1').ToList();
+                }
+                index++;
             }
+            var oxygen =  Convert.ToInt32(list.Single(),2);
 
-            return x * y;
+            list = input.ToList();
+            index = 0;
+
+            while(list.Count() > 1)
+            {
+                var counter = 0;
+                foreach (var item in list)
+                {
+                    if(item[index] == '0'){
+                        counter++;
+                    }
+                }
+                if(counter <= (list.Count()/2))
+                {
+                    list = list.Where(item => item[index] == '0').ToList();
+                }
+                else
+                {
+                     list = list.Where(item => item[index] == '1').ToList();
+                }
+                index++;
+            }
+            var co =  Convert.ToInt32(list.Single(),2);
+
+            return oxygen * co;
+
         }
+
     }
 }
