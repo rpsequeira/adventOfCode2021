@@ -37,7 +37,7 @@ namespace Utils
             return res;
         }
 
-        public static void PrintArray(IEnumerable<int> input)
+        public static void PrintArray<T>(IEnumerable<T> input)
         {
             Console.Write("Printing array:");
             foreach (var item in input)
