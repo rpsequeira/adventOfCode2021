@@ -47,12 +47,12 @@ namespace Utils
             Console.WriteLine("|END");
         }
 
-        public static void ParallelFor(IEnumerable<string> input, Action<int> action)
+        public static void ParallelFor<T>(IEnumerable<T> input, Action<int> action)
         {
             Parallel.For(0, input.Count(), new ParallelOptions { MaxDegreeOfParallelism = 4 }, (i, state) => action(i));
         }
 
-        public static void ParallelForEach(IEnumerable<string> input, Action<string> action)
+        public static void ParallelForEach<T>(IEnumerable<T> input, Action<T> action)
         {
             Parallel.ForEach(input, new ParallelOptions { MaxDegreeOfParallelism = 4 }, (item, state) => action(item));
         }
