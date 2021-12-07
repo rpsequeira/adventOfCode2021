@@ -63,6 +63,35 @@ namespace Utils
             action();
             Console.WriteLine($"{desc} took {stopwatch.ElapsedMilliseconds} ms");
         }
+
+          public static IEnumerable<List<Tuple<int, bool>>> GetMatrix(IEnumerable<string> input)
+        {
+            const char separator = ' ';
+            for (int i = 0; i < input.Count(); i++)
+            {
+                if (input.ToList()[i].Trim() == string.Empty)
+                {
+                    continue;
+                }
+                yield return input.ToList()[i].Split(separator).Where(s => s.Trim() != string.Empty).Select(s => new Tuple<int, bool>(Int32.Parse(s.Trim()), false)).ToList();
+            }
+        }
+
+        public static int SumMatrix(List<List<Tuple<int, bool>>> matrix)
+        {
+            int sum = 0;
+            foreach (var row in matrix)
+            {
+                foreach (var col in row)
+                {
+                    if (!col.Item2)
+                    {
+                        sum += col.Item1;
+                    }
+                }
+            }
+            return sum;
+        }
     }
 
     public struct Point

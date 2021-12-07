@@ -41,7 +41,7 @@ namespace adventofcode2020
 
             for (int i = 2; i < raw.Count(); i += 6)
             {
-                cards.Add(GetMatrix(raw.Take(new Range(i, i + 6))).ToList());
+                cards.Add(Utils.Utils.GetMatrix(raw.Take(new Range(i, i + 6))).ToList());
             }
 
             return new Tuple<IEnumerable<int>, List<List<List<Tuple<int, bool>>>>>(drawn, cards);
@@ -89,7 +89,7 @@ namespace adventofcode2020
                 }
             }
 
-            return GetSum(bingoCard) * lastNumber;
+            return Utils.Utils.SumMatrix(bingoCard) * lastNumber;
         }
 
         static int DoMagic2(Tuple<IEnumerable<int>, List<List<List<Tuple<int, bool>>>>> input)
@@ -147,20 +147,7 @@ namespace adventofcode2020
                 }
             }
 
-            return GetSum(bingoCard) * lastNumber;
-        }
-
-        private static IEnumerable<List<Tuple<int, bool>>> GetMatrix(IEnumerable<string> input)
-        {
-            const char separator = ' ';
-            for (int i = 0; i < input.Count(); i++)
-            {
-                if (input.ToList()[i].Trim() == string.Empty)
-                {
-                    continue;
-                }
-                yield return input.ToList()[i].Split(separator).Where(s => s.Trim() != string.Empty).Select(s => new Tuple<int, bool>(Int32.Parse(s.Trim()), false)).ToList();
-            }
+            return Utils.Utils.SumMatrix(bingoCard) * lastNumber;
         }
 
         private static bool CheckCard(List<List<Tuple<int, bool>>> card, int row, int col, int cardid = -1)
@@ -189,22 +176,5 @@ namespace adventofcode2020
             }
             return bingo;
         }
-
-        private static int GetSum(List<List<Tuple<int, bool>>> card)
-        {
-            int sum = 0;
-            foreach (var row in card)
-            {
-                foreach (var col in row)
-                {
-                    if (!col.Item2)
-                    {
-                        sum += col.Item1;
-                    }
-                }
-            }
-            return sum;
-        }
-
     }
 }
