@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -64,7 +65,7 @@ namespace Utils
             Console.WriteLine($"{desc} took {stopwatch.ElapsedMilliseconds} ms");
         }
 
-          public static IEnumerable<List<Tuple<int, bool>>> GetMatrix(IEnumerable<string> input)
+        public static IEnumerable<List<Tuple<int, bool>>> GetMatrix(IEnumerable<string> input)
         {
             const char separator = ' ';
             for (int i = 0; i < input.Count(); i++)
@@ -91,6 +92,14 @@ namespace Utils
                 }
             }
             return sum;
+        }
+
+        public static void AddRange<T>(this ConcurrentBag<T> @this, IEnumerable<T> toAdd)
+        {
+            foreach (var element in toAdd)
+            {
+                @this.Add(element);
+            }
         }
     }
 
