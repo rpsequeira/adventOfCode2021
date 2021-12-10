@@ -165,7 +165,6 @@ namespace adventofcode2020
                 }
                 scores.Add(score);
             }
-            Utils.Utils.PrintArray(scores);
             return scores.OrderBy(c => c).ToList()[((scores.Count() - 1) / 2)];
         }
     }
