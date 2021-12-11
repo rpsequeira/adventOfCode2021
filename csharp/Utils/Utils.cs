@@ -65,9 +65,61 @@ namespace Utils
             Console.WriteLine($"{desc} took {stopwatch.ElapsedMilliseconds} ms");
         }
 
-        public static IEnumerable<List<Tuple<int, bool>>> GetMatrix(IEnumerable<string> input)
+        public static IEnumerable<List<PointInfo<int>>> GetMatrix(IEnumerable<string> input, char separator = ' ')
         {
-            const char separator = ' ';
+            for (int i = 0; i < input.Count(); i++)
+            {
+                if (input.ToList()[i].Trim() == string.Empty)
+                {
+                    continue;
+                }
+                yield return input.ToList()[i].Split(separator).Where(s => s.Trim() != string.Empty).Select(s => new PointInfo<int>(Int32.Parse(s.Trim()))).ToList();
+            }
+        }
+
+        public static IEnumerable<List<PointInfo<int>>> GetMatrix(IEnumerable<string> input)
+        {
+            for (int i = 0; i < input.Count(); i++)
+            {
+                if (input.ToList()[i].Trim() == string.Empty)
+                {
+                    continue;
+                }
+                yield return input.ToList()[i].ToCharArray().Select(s => new PointInfo<int>(Int32.Parse(s.ToString()))).ToList();
+            }
+        }
+
+
+        public static void ResetMatrix(List<List<PointInfo<int>>> matrix)
+        {
+            for (int j = 0; j < matrix.Count(); j++)
+            {
+                for (int i = 0; i < matrix[j].Count(); i++)
+                {
+                    matrix[j][i].flag = false;
+                }
+            }
+        }
+
+        public static int SumMatrix(List<List<PointInfo<int>>> matrix)
+        {
+            int sum = 0;
+            foreach (var row in matrix)
+            {
+                foreach (var col in row)
+                {
+                    if (!col.flag)
+                    {
+                        sum += col.value;
+                    }
+                }
+            }
+            return sum;
+        }
+
+        [Obsolete]
+        public static IEnumerable<List<Tuple<int, bool>>> GetMatrix(IEnumerable<string> input, bool optional = true, char separator = ' ')
+        {
             for (int i = 0; i < input.Count(); i++)
             {
                 if (input.ToList()[i].Trim() == string.Empty)
@@ -78,6 +130,7 @@ namespace Utils
             }
         }
 
+        [Obsolete]
         public static int SumMatrix(List<List<Tuple<int, bool>>> matrix)
         {
             int sum = 0;
@@ -136,6 +189,19 @@ namespace Utils
         public override string ToString()
         {
             return $"({this.X}, {this.Y})";
+        }
+    }
+
+    public class PointInfo<T>
+    {
+        public T value { get; set; }
+
+        public bool flag { get; set; }
+
+        public PointInfo(T value, bool flag = false)
+        {
+            this.value = value;
+            this.flag = flag;
         }
     }
 }
