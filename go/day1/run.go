@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
-	"strings"
 )
 
 func main() {
@@ -18,18 +16,16 @@ func main() {
 	}
 	defer f.Close()
 
-	reader := bufio.NewReader(f)
+	reader := bufio.NewScanner(f)
 
 	file := []int{}
-	for {
-		line, err := reader.ReadString('\n')
+	for reader.Scan() {
+		var number int
+		_, err := fmt.Sscanf(reader.Text(), "%d", &number)
 		if err != nil {
 			break
 		}
-		number, err := strconv.Atoi(strings.TrimSuffix(line, "\n"))
-		if err != nil {
-			log.Fatal(err)
-		}
+
 		file = append(file, number)
 	}
 
